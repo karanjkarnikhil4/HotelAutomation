@@ -6,6 +6,7 @@ import com.hotel.automation.corridor.MainCorridor;
 import com.hotel.automation.exceptions.CorridorNotPresentException;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Floor implements IFloor {
 
@@ -17,7 +18,7 @@ public class Floor implements IFloor {
 
   public Floor(int floorNumber) {
     this.floorNumber = floorNumber;
-    this.compromisedCorridors = new LinkedList<>();
+    this.compromisedCorridors = new ConcurrentLinkedQueue<>();
     this.corridors = new Hashtable<>();
   }
 
@@ -52,7 +53,7 @@ public class Floor implements IFloor {
   }
 
   @Override
-  public void motionSensed(int corridorNumber) {
+  public synchronized void motionSensed(int corridorNumber) {
 
     this.corridors.get(corridorNumber).motionSensed();
     compromiseCorridors(corridorNumber);
@@ -69,7 +70,7 @@ public class Floor implements IFloor {
   }
 
   @Override
-  public void noMotionSensed(int corridorNumber) {
+  public synchronized void noMotionSensed(int corridorNumber) {
 
     Corridor corridor = this.corridors.get(corridorNumber);
     corridor.noMotionSensed();

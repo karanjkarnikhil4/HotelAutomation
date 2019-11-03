@@ -5,6 +5,7 @@ import com.hotel.automation.devices.ElectronicDevice;
 import com.hotel.automation.floors.Floor;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Corridor implements Comparable {
 
@@ -21,8 +22,8 @@ public abstract class Corridor implements Comparable {
     this.corridorNumber = corridorNumber;
     this.corridorName = corridorName;
     devices = new ArrayList<>();
-    compromisableDevices = new ArrayList<>();
-    compromisedDevices = new LinkedList<>();
+    compromisableDevices = Collections.synchronizedList(new ArrayList<>());
+    compromisedDevices = new ConcurrentLinkedQueue<>();
   }
 
   public String getCorridorName() {
