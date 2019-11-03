@@ -7,6 +7,7 @@ import com.hotel.automation.exceptions.CorridorNotPresentException;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.BiFunction;
 
 public class Floor implements IFloor {
 
@@ -15,11 +16,15 @@ public class Floor implements IFloor {
   private int mainCorridorMultiplier = CorridorMultiplier.MAIN_CORRIDOR_MULTIPLIER;
   private int subCorridorMultiplier = CorridorMultiplier.SUB_CORRIDOR_MULTIPLIER;
   private Queue<Corridor> compromisedCorridors;
+  private BiFunction<Long, Long, Long> consumptionMax;
 
   public Floor(int floorNumber) {
     this.floorNumber = floorNumber;
     this.compromisedCorridors = new ConcurrentLinkedQueue<>();
     this.corridors = new Hashtable<>();
+    consumptionMax =
+        (numberOfMainCorridors, numberOfSubCorridors) ->
+            (numberOfMainCorridors * 15 + numberOfSubCorridors * 10);
   }
 
   @Override
@@ -134,8 +139,7 @@ public class Floor implements IFloor {
 
     long numberOfSubCorridors = this.corridors.values().stream().count() - numberOfMainCorridors;
 
-    return (mainCorridorMultiplier * numberOfMainCorridors)
-        + (subCorridorMultiplier * numberOfSubCorridors);
+    return this.consumptionMax.apply(numberOfMainCorridors, numberOfSubCorridors);
   }
 
   private long getCountOfMainCorridors() {
@@ -191,5 +195,13 @@ public class Floor implements IFloor {
     IFloor floor = (Floor) o;
     value = this.getFloorNumber() > floor.getFloorNumber() ? 1 : -1;
     return value;
+  }
+
+  public BiFunction<Long, Long, Long> getConsumptionLimit() {
+    return consumptionMax;
+  }
+
+  public void setConsumptionLimit(BiFunction<Long, Long, Long> consumptionLimit) {
+    this.consumptionMax = consumptionLimit;
   }
 }
