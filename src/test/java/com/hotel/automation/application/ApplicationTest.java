@@ -52,4 +52,79 @@ public class ApplicationTest {
     System.out.println("***********After 5 Seconds***********");
     hotelController.printStatus();
   }
+
+  @Test
+  public void applicationTest_SimulateNightMode_AllMainCorridorLightsTurnedON()
+      throws InterruptedException {
+    hotelSpecification = new HotelSpecification();
+    hotelBuilder = new HotelBuilder(hotelSpecification);
+    hotel = hotelBuilder.getHotel();
+    watch = new Watch();
+    hotelController = new HotelController(hotel, watch);
+    sensor = new HotelSensor(hotelController);
+    hotelController.nightModeON();
+    hotel.printStatus();
+  }
+
+  @Test
+  public void applicationTest_SimulateMotionOnALLSubCorridors__AllSubCorridorLightsTurnedON()
+      throws InterruptedException {
+    hotelSpecification = new HotelSpecification();
+    hotelBuilder = new HotelBuilder(hotelSpecification);
+    hotel = hotelBuilder.getHotel();
+    watch = new Watch();
+    hotelController = new HotelController(hotel, watch);
+    sensor = new HotelSensor(hotelController);
+    hotelController.nightModeON();
+
+    System.out.print("***********Before Motion***********");
+    System.out.println();
+    hotelController.printStatus();
+    sensor.motionSensed(new Address(0, 1));
+    sensor.motionSensed(new Address(0, 2));
+    sensor.motionSensed(new Address(1, 1));
+    sensor.motionSensed(new Address(1, 2));
+    System.out.println();
+    System.out.println();
+    System.out.println("***********After Motion***********");
+    hotelController.printStatus();
+    TimeUnit.SECONDS.sleep(CutOffTime.TIME_IN_SECONDS);
+    System.out.println();
+    System.out.println();
+    System.out.println("***********After 5 Seconds***********");
+    hotelController.printStatus();
+  }
+
+  @Test
+  public void
+      applicationTest_SimulateMotionOnALLSubCorridors__AllSubCorridorLightsTurnedONAndACOFF()
+          throws InterruptedException {
+
+    hotelSpecification = new HotelSpecification();
+    hotelSpecification.setNoOfLightsInEachCorridor(2);
+    hotelBuilder = new HotelBuilder(hotelSpecification);
+    hotel = hotelBuilder.getHotel();
+
+    watch = new Watch();
+    hotelController = new HotelController(hotel, watch);
+    sensor = new HotelSensor(hotelController);
+    hotelController.nightModeON();
+
+    System.out.print("***********Before Motion***********");
+    System.out.println();
+    hotelController.printStatus();
+    sensor.motionSensed(new Address(0, 1));
+    sensor.motionSensed(new Address(0, 2));
+    sensor.motionSensed(new Address(1, 1));
+    sensor.motionSensed(new Address(1, 2));
+    System.out.println();
+    System.out.println();
+    System.out.println("***********After Motion***********");
+    hotelController.printStatus();
+    TimeUnit.SECONDS.sleep(CutOffTime.TIME_IN_SECONDS);
+    System.out.println();
+    System.out.println();
+    System.out.println("***********After 5 Seconds***********");
+    hotelController.printStatus();
+  }
 }

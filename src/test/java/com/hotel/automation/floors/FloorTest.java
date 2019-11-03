@@ -5,6 +5,7 @@ import com.hotel.automation.corridor.Corridor;
 import com.hotel.automation.corridor.MainCorridor;
 import com.hotel.automation.corridor.SubCorridor;
 import com.hotel.automation.devices.ElectronicDevice;
+import com.hotel.automation.exceptions.CorridorNotPresentException;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,7 +92,7 @@ public class FloorTest {
   }
 
   @Test
-  public void floorTest_OverloadFloor_AssertConsumptions() {
+  public void floorTest_OverloadFloor_AssertConsumptions() throws CorridorNotPresentException {
 
     floor.motionSensed(1);
     Mockito.when(acSub.isOn()).thenReturn(false);

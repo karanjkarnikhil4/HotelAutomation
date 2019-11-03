@@ -1,6 +1,7 @@
 package com.hotel.automation.hotel;
 
 import com.hotel.automation.address.IAddress;
+import com.hotel.automation.exceptions.CorridorNotPresentException;
 import com.hotel.automation.floors.IFloor;
 
 import java.util.Hashtable;
@@ -22,7 +23,12 @@ public class Hotel implements IHotel {
   }
 
   @Override
-  public IFloor getFloor(int floorNumber) {
+  public IFloor getFloor(int floorNumber) throws CorridorNotPresentException {
+
+    if (!floors.containsKey(floorNumber)) {
+      throw new CorridorNotPresentException(" The floor your are searching for does not exist");
+    }
+
     return this.floors.get(floorNumber);
   }
 

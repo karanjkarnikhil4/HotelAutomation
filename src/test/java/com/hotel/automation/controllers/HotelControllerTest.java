@@ -39,7 +39,7 @@ public class HotelControllerTest {
   @Test
   public void hotelControllerTest_CallNightModeOnMethod_HotelNightModeOnMethodCalled() {
     hotelController.nightModeON();
-    Mockito.verify(hotel,Mockito.times(2)).nightModeON();
+    Mockito.verify(hotel, Mockito.times(2)).nightModeON();
   }
 
   @Test

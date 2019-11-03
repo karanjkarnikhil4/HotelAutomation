@@ -1,5 +1,7 @@
 package com.hotel.automation.builder;
 
+import com.hotel.automation.constants.HotelSpecificationDefaults;
+
 public class HotelSpecification implements IHotelSpecification {
 
   private int noOfMainCorridorsPerFloor = HotelSpecificationDefaults.NO_OF_MAIN_CORRIDORS_PER_FLOOR;

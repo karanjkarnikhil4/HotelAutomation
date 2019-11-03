@@ -3,6 +3,7 @@ package com.hotel.automation.floors;
 import com.hotel.automation.constants.CorridorMultiplier;
 import com.hotel.automation.corridor.Corridor;
 import com.hotel.automation.corridor.MainCorridor;
+import com.hotel.automation.exceptions.CorridorNotPresentException;
 
 import java.util.*;
 
@@ -137,7 +138,9 @@ public class Floor implements IFloor {
   }
 
   private long getCountOfMainCorridors() {
-    return this.corridors.values().stream()
+    return this.corridors
+        .values()
+        .stream()
         .filter(corridor -> corridor instanceof MainCorridor)
         .count();
   }
@@ -165,7 +168,11 @@ public class Floor implements IFloor {
   }
 
   @Override
-  public Corridor getCorridor(int corridorNumber) {
+  public Corridor getCorridor(int corridorNumber) throws CorridorNotPresentException {
+
+    if (!corridors.containsKey(corridorNumber)) {
+      throw new CorridorNotPresentException(" The corridor your are searching for does not exist");
+    }
     return this.corridors.get(corridorNumber);
   }
 

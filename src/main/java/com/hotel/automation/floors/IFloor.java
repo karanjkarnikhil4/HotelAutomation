@@ -1,6 +1,7 @@
 package com.hotel.automation.floors;
 
 import com.hotel.automation.corridor.Corridor;
+import com.hotel.automation.exceptions.CorridorNotPresentException;
 
 public interface IFloor extends Comparable {
 
@@ -28,7 +29,7 @@ public interface IFloor extends Comparable {
 
   void setFloorNumber(int floorNumber);
 
-  Corridor getCorridor(int corridorNumber);
+  Corridor getCorridor(int corridorNumber) throws CorridorNotPresentException;
 
   void printStatus();
 }

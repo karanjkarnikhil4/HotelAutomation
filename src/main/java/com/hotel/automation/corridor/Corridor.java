@@ -70,7 +70,8 @@ public abstract class Corridor implements Comparable {
   }
 
   public int getConsumption() {
-    return devices.stream()
+    return devices
+        .stream()
         .filter(ElectronicDevice::isOn)
         .mapToInt(ElectronicDevice::getConsumption)
         .sum();
